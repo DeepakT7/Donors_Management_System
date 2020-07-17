@@ -1,34 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+# Create your views here.
 from .models import *
 
+
 def home(request):
-    orders = Orders.objects.all()
-    donors = Donor.objects.all()
+	orders = Order.objects.all()
+	donors = Donor.objects.all()
 
-    total_orders = donor.count()
-    delievered = orders.filter(status = 'Delivered').count()
-    pending = orders.filter(status = 'Pending').count()
+	total_donors = donors.count()
 
-    context = { 
-    'orders' : orders,
-    'donor': donor, 'delievered' : delievered,
-    'total_orders' : total_orders,
-    'pending' : pending
-    }
-    return render(request, 'accounts/dashboard.html', context)
+	total_orders = orders.count()
+	delivered = orders.filter(status='Delivered').count()
+	pending = orders.filter(status='Pending').count()
 
+	context = {'orders':orders, 'donors':donors,
+	'total_orders':total_orders,'delivered':delivered,
+	'pending':pending }
+
+	return render(request, 'accounts/dashboard.html', context)
 
 def donations(request):
-    return render(request, 'accounts/donations.html')
+	donations = Donation.objects.all()
+
+	return render(request, 'accounts/donations.html', {'donations':donations})
 
 def donor(request, pk_test):
-    donor = Donor.objects.get(id = pk_test)
+	donor = Donor.objects.get(id=pk_test)
 
-    orders = donor.order_set.all()
-    order_count = orders.count()
-    context = {'donor' : donor, 'orders' : orders, 'order_count':order_count }
-    return render(request, 'accounts/donor.html', context)
+	orders = donor.order_set.all()
+	order_count = orders.count()
 
-# Create your views here.
+	context = {'donor':donor, 'orders':orders, 'order_count':order_count}
+	return render(request, 'accounts/donor.html',context)
