@@ -5,19 +5,19 @@ from .models import *
 
 def home(request):
     orders = Orders.objects.all()
-    donors = Conors.objects.all()
+    donors = Donor.objects.all()
 
-    total_donors = donors.count()
+    total_orders = donor.count()
     delievered = orders.filter(status = 'Delivered').count()
     pending = orders.filter(status = 'Pending').count()
 
     context = { 
     'orders' : orders,
-    'donors': donors, 'delievered' : delievered,
+    'donor': donor, 'delievered' : delievered,
     'total_orders' : total_orders,
     'pending' : pending
     }
-    return render(request, 'accounts/dashboard.html')
+    return render(request, 'accounts/dashboard.html', context)
 
 
 def donations(request):
